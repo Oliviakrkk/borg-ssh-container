@@ -1,5 +1,6 @@
-# Use the latest Ubuntu LTS release
-FROM ubuntu:26.04
+# Ubuntu 26.04 LTS, pinned by digest for reproducible builds.
+# Dependabot keeps this updated (see .github/dependabot.yml).
+FROM ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b
 
 # Update apt-get and install necessary packages: openssh-server and borgbackup
 RUN apt-get update && apt-get install -y --no-install-recommends openssh-server borgbackup && \
@@ -40,6 +41,10 @@ RUN chmod +x /start-sshd.sh
 
 # Expose port 22 for SSH connections
 EXPOSE 22
+
+# Consider sshd unhealthy if it stops accepting TCP connections on port 22.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD bash -c '</dev/tcp/127.0.0.1/22' || exit 1
 
 # Set the entrypoint to run the start-sshd.sh script
 CMD ["/start-sshd.sh"]
