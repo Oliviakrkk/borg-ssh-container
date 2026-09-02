@@ -81,7 +81,8 @@ docker build -t borg-ssh-container .
 ## Automated builds
 
 - **`.github/workflows/docker-weekly.yml`** — builds and pushes the `linux/arm64` image to GHCR every Monday at 03:00 UTC (and on manual dispatch).
-- **`.github/workflows/dependabot-auto-merge.yml`** — auto-approves and merges Dependabot pull requests.
+- **`.github/workflows/docker-build-test.yml`** — builds the image (without pushing) on every pull request that touches the Dockerfile or `start-sshd.sh`, to catch breakage before merge.
+- **`.github/workflows/dependabot-auto-merge.yml`** — auto-approves and merges Dependabot pull requests once required checks pass.
 - **`.github/dependabot.yml`** — checks for updates to the base image and GitHub Actions monthly.
 
 ## Security notes

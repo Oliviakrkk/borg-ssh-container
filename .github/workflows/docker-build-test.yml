@@ -5,7 +5,7 @@ on:
     paths:
       - Dockerfile
       - start-sshd.sh
-      - .github/workflows/docker-build-test.yml
+      - .github/workflows/**
 
 jobs:
   build:
